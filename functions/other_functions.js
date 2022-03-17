@@ -73,7 +73,7 @@ const filterFilmsNowPlaying = (movies) => {
         });
       }
     );
-  return nowPlayingArray.sort((a, b) => b.note - a.note);
+  return nowPlayingArray.sort((a, b) => b.vote_average - a.vote_average);
 };
 
 // Function return movie details
