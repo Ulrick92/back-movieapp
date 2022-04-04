@@ -35,7 +35,7 @@ const actorDetails = ({
   profile_path,
 }) => {
   return {
-    biography,
+    ...(biography && { biography }),
     birthday: formatDate(birthday),
     ...(deathday !== null && { deathday: formatDate(deathday) }),
     id,
