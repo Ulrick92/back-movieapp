@@ -1,3 +1,4 @@
+// Import functions
 const express = require("express");
 const app = express();
 const { getMoviesHome } = require("../moviesfunctions/calls_movies");

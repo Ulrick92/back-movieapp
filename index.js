@@ -16,6 +16,9 @@ app.use(
 app.use(cors());
 
 // Import routes from "routes" file
+const actor = require("./routes/actor_route");
+app.use(actor);
+
 const moviesHome = require("./routes/moviesHome_route");
 app.use(moviesHome);
 

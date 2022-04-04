@@ -6,6 +6,7 @@ const {
   movieCard,
   params,
   actorCard,
+  getActorDestails,
 } = require("../functions/other_functions");
 
 // Function get many request
@@ -32,6 +33,18 @@ const getMoviesHome = async (url) => {
       filterFilmsNowPlaying(nowplaying.data.results),
       movieCard(popular.data.results),
     ];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+// Function return actor details and movies
+const actor = async (url) => {
+  try {
+    const [details, movies] = await moviesPromise(url);
+
+    return [getActorDestails(details.data), movieCard(movies.data.cast)];
   } catch (error) {
     console.log(error);
     return [];
@@ -75,3 +88,4 @@ const details = async (url) => {
 exports.getMoviesHome = getMoviesHome;
 exports.moviesPagination = moviesPagination;
 exports.details = details;
+exports.actor = actor;

@@ -5,7 +5,7 @@ const truncatedText = (text, number) => {
 };
 
 // Function format the date to stirng
-const dateFilm = (date) => {
+const formatDate = (date) => {
   const event = new Date(date);
   const options = {
     weekday: "long",
@@ -19,9 +19,28 @@ const dateFilm = (date) => {
 // Function format "release_date" and "vote_average" keys and return the rest keys
 const movieDetails = ({ release_date, vote_average, vote_count, ...rest }) => {
   return {
-    release_date: dateFilm(release_date),
+    release_date: formatDate(release_date),
     vote_average: `${vote_average} / 10 | ${vote_count} vote(s)`,
     ...rest, // to avoid having a key named "rest"
+  };
+};
+
+// Function return other actor keys
+const actorDetails = ({
+  biography,
+  birthday,
+  deathday,
+  id,
+  name,
+  profile_path,
+}) => {
+  return {
+    biography,
+    birthday: formatDate(birthday),
+    ...(deathday !== null && { deathday: formatDate(deathday) }),
+    id,
+    name,
+    profile_path,
   };
 };
 
@@ -46,8 +65,7 @@ const actorCardMap = ({ original_name, profile_path, character, id }) => {
 
 // Function return the best movies now playing between 10 and 7 vote average
 const filterFilmsNowPlaying = (movies) => {
-  let nowPlayingArray = [];
-  movies
+  return movies
     .filter(
       ({ vote_average, overview }) =>
         vote_average <= 10 && vote_average >= 7 && overview
@@ -61,20 +79,21 @@ const filterFilmsNowPlaying = (movies) => {
         release_date,
         vote_average,
         genre_ids,
-      }) => {
-        nowPlayingArray.push({
-          title,
-          backdrop_path,
-          id,
-          overview: truncatedText(overview, 420),
-          release_date: dateFilm(release_date),
-          vote_average,
-          genre_ids,
-        });
-      }
-    );
-  return nowPlayingArray.sort((a, b) => b.vote_average - a.vote_average);
+      }) => ({
+        title,
+        backdrop_path,
+        id,
+        overview: truncatedText(overview, 420),
+        release_date: formatDate(release_date),
+        vote_average,
+        genre_ids,
+      })
+    )
+    .sort((a, b) => b.vote_average - a.vote_average);
 };
+
+// Function return actor details
+const getActorDestails = (actor) => actorDetails(actor);
 
 // Function return movie details
 const getMovieDetails = (movie) => movieDetails(movie);
@@ -116,10 +135,11 @@ const params = (options = {}) => {
 
 // All export funcions
 exports.truncatedText = truncatedText;
-exports.dateFilm = dateFilm;
+exports.formatDate = formatDate;
 exports.filterFilmsNowPlaying = filterFilmsNowPlaying;
 exports.getMovieDetails = getMovieDetails;
 exports.movieCard = movieCard;
 exports.getQuery = getQuery;
 exports.params = params;
 exports.actorCard = actorCard;
+exports.getActorDestails = getActorDestails;
