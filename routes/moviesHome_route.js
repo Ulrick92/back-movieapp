@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const { getMoviesHome } = require("../moviesfunctions/calls_movies");
 
+// Route movies home
 app.get("/movies_home", async (req, res) => {
   try {
     const response = await getMoviesHome([

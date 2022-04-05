@@ -7,7 +7,6 @@ const { details } = require("../moviesfunctions/calls_movies");
 app.get("/details/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    // const response = await details(`/movie/${id}`);
     const response = await details([`/movie/${id}`, `/movie/${id}/credits`]);
     res.json(response);
   } catch (error) {

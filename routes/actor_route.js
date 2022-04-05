@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const { actor } = require("../moviesfunctions/calls_movies");
 
+// Route actor
 app.get("/actor/:id", async (req, res) => {
   try {
     const { id } = req.params;
